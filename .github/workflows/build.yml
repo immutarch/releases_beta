@@ -13,7 +13,13 @@ jobs:
       - name: Prepare build environment
         run: |
           pacman-key --init
-          pacman --noconfirm -Syu btrfs-progs archiso git reflector arch-install-scripts
+          pacman --noconfirm -Syu btrfs-progs archiso git reflector unzip arch-install-scripts
+          mkdir -p tools
+          curl -L -o tools/hdiffpatch_v4.8.0_bin_linux64.zip https://github.com/sisong/HDiffPatch/releases/download/v4.8.0/hdiffpatch_v4.8.0_bin_linux64.zip
+          unzip tools/hdiffpatch_v4.8.0_bin_linux64.zip -d tools
+          cp tools/linux64/* /usr/bin/
+          chmod +x /usr/bin/hdiffz
+          rm -rf tools
           reflector > /etc/pacman.d/mirrorlist
           git clone --recurse-submodules https://github.com/immutarch/builder
       - name: Build image 
