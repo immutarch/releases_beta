@@ -20,21 +20,21 @@ jobs:
           remove-docker-images: true
       - name: Prepare build environment
         run: |
-          apt update
-          apt-get install btrfs-progs pacman-package-manager zstd git jq unzip arch-install-scripts
-          mkdir -p /etc/pacman.d
+          sudo apt update
+          sudo apt-get install btrfs-progs pacman-package-manager zstd git jq unzip arch-install-scripts
+          sudo mkdir -p /etc/pacman.d
           echo "Server = https://ftp.sh.cvut.cz/arch/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-          mkdir -p tools
+          sudo mkdir -p tools
           curl -L -o tools/hdiffpatch_v4.8.0_bin_linux64.zip https://github.com/sisong/HDiffPatch/releases/download/v4.8.0/hdiffpatch_v4.8.0_bin_linux64.zip
           unzip tools/hdiffpatch_v4.8.0_bin_linux64.zip -d tools
-          cp tools/linux64/* /usr/bin/
-          chmod +x /usr/bin/hdiffz
+          sudo cp tools/linux64/* /usr/bin/
+          sudo chmod +x /usr/bin/hdiffz
           rm -rf tools
           git clone --recurse-submodules https://github.com/immutarch/builder
       - name: Build image 
         run: |
           mkdir -p $(pwd)/output $(pwd)/workdir
-          bash builder/build.sh --flavor beta --snapshot_ver remote --workdir $(pwd)/workdir --output-dir $(pwd)/output
+          sudo bash builder/build.sh --flavor beta --snapshot_ver remote --workdir $(pwd)/workdir --output-dir $(pwd)/output
           sha256sum $(pwd)/output/$(cat /tmp/build_temp_ver).img.zst | awk '{print $1'} > $(pwd)/output/$(cat /tmp/build_temp_ver).img.zst.sha256
           echo "BUILDTAG=$(cat /tmp/builder-releasetag)" >> $GITHUB_ENV
           echo "BUILDIMG=$(cat /tmp/build_temp_ver)" >> $GITHUB_ENV
