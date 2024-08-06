@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Cleanup previous build folder 
         run: | 
-          rm -rf ./*
+          sudo rm -rf ./*
       - name: Prepare build environment
         run: |
           mkdir -p tools
