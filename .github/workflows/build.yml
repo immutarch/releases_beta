@@ -23,9 +23,8 @@ jobs:
           sudo apt update
           sudo apt-get install btrfs-progs pacman-package-manager zstd git jq unzip arch-install-scripts
           sudo mkdir -p /etc/pacman.d
-          sudo chmod 777 -R .
           echo "Server = https://ftp.sh.cvut.cz/arch/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist > /dev/null
-          sudo mkdir -p tools
+          mkdir -p tools
           curl -L -o tools/hdiffpatch_v4.8.0_bin_linux64.zip https://github.com/sisong/HDiffPatch/releases/download/v4.8.0/hdiffpatch_v4.8.0_bin_linux64.zip
           unzip tools/hdiffpatch_v4.8.0_bin_linux64.zip -d tools
           sudo cp tools/linux64/* /usr/bin/
@@ -36,6 +35,7 @@ jobs:
         run: |
           mkdir -p $(pwd)/output $(pwd)/workdir
           sudo bash builder/build.sh --flavor beta --snapshot_ver remote --workdir $(pwd)/workdir --output-dir $(pwd)/output
+          sudo chmod 777 -R $(pwd)/output $(pwd)/index1 $(pwd)/index2
           sha256sum $(pwd)/output/$(cat /tmp/build_temp_ver).img.zst | awk '{print $1'} > $(pwd)/output/$(cat /tmp/build_temp_ver).img.zst.sha256
           echo "BUILDTAG=$(cat /tmp/builder-releasetag)" >> $GITHUB_ENV
           echo "BUILDIMG=$(cat /tmp/build_temp_ver)" >> $GITHUB_ENV
