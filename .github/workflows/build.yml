@@ -23,6 +23,7 @@ jobs:
           sudo apt update
           sudo apt-get install btrfs-progs pacman-package-manager zstd git jq unzip arch-install-scripts
           sudo mkdir -p /etc/pacman.d
+          sudo chmod 777 -R .
           echo "Server = https://ftp.sh.cvut.cz/arch/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist > /dev/null
           sudo mkdir -p tools
           curl -L -o tools/hdiffpatch_v4.8.0_bin_linux64.zip https://github.com/sisong/HDiffPatch/releases/download/v4.8.0/hdiffpatch_v4.8.0_bin_linux64.zip
