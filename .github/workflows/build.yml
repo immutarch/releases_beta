@@ -6,21 +6,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux:latest
-      options: --privileged
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          overprovision-lvm: true
+          remove-dotnet: true
+          remove-android: true
+          remove-codeql: true
+          remove-haskell: true
+          remove-docker-images: true
       - name: Prepare build environment
         run: |
-          pacman-key --init
-          pacman --noconfirm -Syu btrfs-progs archiso git reflector jq unzip arch-install-scripts
+          apt update
+          apt-get install btrfs-progs pacman-package-manager zstd git jq unzip arch-install-scripts
+          mkdir -p /etc/pacman.d
+          echo "Server = https://ftp.sh.cvut.cz/arch/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
           mkdir -p tools
           curl -L -o tools/hdiffpatch_v4.8.0_bin_linux64.zip https://github.com/sisong/HDiffPatch/releases/download/v4.8.0/hdiffpatch_v4.8.0_bin_linux64.zip
           unzip tools/hdiffpatch_v4.8.0_bin_linux64.zip -d tools
           cp tools/linux64/* /usr/bin/
           chmod +x /usr/bin/hdiffz
           rm -rf tools
-          reflector > /etc/pacman.d/mirrorlist
           git clone --recurse-submodules https://github.com/immutarch/builder
       - name: Build image 
         run: |
