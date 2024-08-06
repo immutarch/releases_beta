@@ -9,8 +9,6 @@ jobs:
     steps:
       - name: Prepare build environment
         run: |
-          sudo mkdir -p /etc/pacman.d
-          echo "Server = https://ftp.sh.cvut.cz/arch/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist > /dev/null
           mkdir -p tools
           curl -L -o tools/hdiffpatch_v4.8.0_bin_linux64.zip https://github.com/sisong/HDiffPatch/releases/download/v4.8.0/hdiffpatch_v4.8.0_bin_linux64.zip
           unzip tools/hdiffpatch_v4.8.0_bin_linux64.zip -d tools
