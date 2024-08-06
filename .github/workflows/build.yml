@@ -32,7 +32,7 @@ jobs:
           rm -rf tools
           git clone --recurse-submodules https://github.com/immutarch/builder
           sudo cp builder/pacman.conf /etc/pacman.conf
-          pacman-key --init
+          sudo pacman-key --init
       - name: Build image 
         run: |
           mkdir -p $(pwd)/output $(pwd)/workdir
