@@ -7,6 +7,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: Cleanup previous build folder 
+        run: | 
+          rm -rf ./*
       - name: Prepare build environment
         run: |
           mkdir -p tools
