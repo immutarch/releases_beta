@@ -38,7 +38,7 @@ jobs:
           mkdir -p $(pwd)/output $(pwd)/workdir
           export CI=true
           sudo bash builder/build.sh --flavor beta --snapshot_ver remote --workdir $(pwd)/workdir --output-dir $(pwd)/output
-          sudo chmod 777 -R $(pwd)/output $(pwd)/index1 $(pwd)/index2
+          sudo chmod 777 -R $(pwd)/output $(pwd)/index*
           sha256sum $(pwd)/output/$(cat /tmp/build_temp_ver).img.zst | awk '{print $1'} > $(pwd)/output/$(cat /tmp/build_temp_ver).img.zst.sha256
           echo "BUILDTAG=$(cat /tmp/builder-releasetag)" >> $GITHUB_ENV
           echo "BUILDIMG=$(cat /tmp/build_temp_ver)" >> $GITHUB_ENV
