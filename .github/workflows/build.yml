@@ -41,5 +41,6 @@ jobs:
             output/${{ env.BUILDIMG }}.img.zst
             output/${{ env.BUILDIMG }}.img.zst.sha256
             index1/incremental_patch.index1
+            index2/incremental_patch.index2
             output/patch.incremental_conditions
             
